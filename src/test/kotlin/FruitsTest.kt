@@ -5,9 +5,16 @@ class FruitsTest {
 
     @Test
     fun `price of empty cart`() {
-        assertEquals(0, fruitPrice())
+        assertEquals(0, priceOf(emptyList()))
     }
 
+    @Test
+    fun `an apple`() {
+        assertEquals(25, priceOf(listOf("🍏")))
+    }
 }
 
-fun fruitPrice() = 0
+fun priceOf(fruits: List<String>): Int {
+    if (fruits.contains("🍏")) return 25
+    return 0
+}
