@@ -17,10 +17,21 @@ class FruitsTest {
     fun `an orange`() {
         assertEquals(70, priceOf(listOf("🍊")))
     }
+
+
+    @Test
+    fun `an orange and an apple`() {
+        assertEquals(95, priceOf(listOf("🍊", "🍏")))
+    }
+
+    @Test
+    fun `multiple of each`() {
+        assertEquals(190, priceOf(List(2) { "🍏" } + List(2) { "🍊" }))
+    }
 }
 
 fun priceOf(fruits: List<String>): Int {
-    if (fruits.contains("🍏")) return 25
-    if (fruits.contains("🍊")) return 70
-    return 0
+    val counts = fruits.groupBy { it }.mapValues { (_, occurrences) -> occurrences.size }
+    return counts.getOrDefault("🍏", 0) * 25 +
+            counts.getOrDefault("🍊", 0) * 70
 }
