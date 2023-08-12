@@ -9,18 +9,18 @@ class FruitsTest {
     }
 
     @Test
-    fun `an apple`() {
+    fun `1 apple`() {
         assertEquals(25, priceOf(listOf("🍏")))
     }
 
     @Test
-    fun `an orange`() {
+    fun `1 orange`() {
         assertEquals(70, priceOf(listOf("🍊")))
     }
 
 
     @Test
-    fun `an orange and an apple`() {
+    fun `1 orange and 1 apple`() {
         assertEquals(95, priceOf(listOf("🍊", "🍏")))
     }
 
@@ -55,10 +55,16 @@ class FruitsTest {
     }
 
     @Test
-    fun `10 bananas`() {
-        assertEquals(350, priceOf(List(10) { "🍌" }))
+    fun `10 bananas pays 5`() {
+        assertEquals(35 * 5, priceOf(List(10) { "🍌" }))
+    }
+
+    @Test
+    fun `2 bananas pays 1`() {
+        assertEquals(35, priceOf(List(2) { "🍌" }))
     }
 }
+
 
 fun priceOf(fruits: List<String>): Int {
     val counts = fruits.groupBy { it }.mapValues { (_, occurrences) -> occurrences.size }
@@ -66,6 +72,6 @@ fun priceOf(fruits: List<String>): Int {
     val orangeCount = counts.getOrDefault("🍊", 0)
     val bananaCount = counts.getOrDefault("🍌", 0)
     return (appleCount / 2 + appleCount % 2) * 25 +
-            ((orangeCount / 3) * 2 + orangeCount % 3) * 70 +
-            bananaCount * 35
+            (bananaCount / 2 + bananaCount % 2) * 35 +
+            ((orangeCount / 3) * 2 + orangeCount % 3) * 70
 }
