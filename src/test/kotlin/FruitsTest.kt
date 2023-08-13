@@ -83,7 +83,7 @@ class FruitsTest {
 
     @Test
     fun `3 bananas 6 apples pays 3 bananas + 2 apples`() {
-        assertEquals(3 * 35 + 2 * 25,priceOf(*Array(3) { "🍌" } + Array(6) { "🍏" }))
+        assertEquals(3 * 35 + 2 * 25, priceOf(*Array(3) { "🍌" } + Array(6) { "🍏" }))
     }
 }
 
@@ -96,10 +96,9 @@ fun priceOf(vararg fruits: String): Int {
 
     val unmatchedBananas = max(0, bananaCount - appleCount)
     val unmatchedApples = max(0, appleCount - bananaCount)
-
-    val bananaPrice = 35
-    return min(bananaCount, appleCount) * bananaPrice +
-            (unmatchedBananas / 2 + unmatchedBananas % 2) * bananaPrice +
-            (unmatchedApples / 2 + unmatchedApples % 2) * 25 +
+    val matchedApplesAndBananas = min(bananaCount, appleCount)
+    return matchedApplesAndBananas * 35 +
+            (unmatchedBananas / 2 + unmatchedBananas % 2) * 35 +
+            (unmatchedApples / 2 + unmatchedApples % 2) * 25 + // 🍏
             ((orangeCount / 3) * 2 + orangeCount % 3) * 70
 }
