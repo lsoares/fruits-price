@@ -87,18 +87,15 @@ class FruitsTest {
     }
 }
 
-
 fun priceOf(vararg fruits: String): Int {
-    val counts = fruits.groupBy { it }.mapValues { (_, occurrences) -> occurrences.size }
-    val appleCount = counts.getOrDefault("🍏", 0)
-    val orangeCount = counts.getOrDefault("🍊", 0)
-    val bananaCount = counts.getOrDefault("🍌", 0)
-
-    val unmatchedBananas = max(0, bananaCount - appleCount)
-    val unmatchedApples = max(0, appleCount - bananaCount)
-    val matchedApplesAndBananas = min(bananaCount, appleCount)
+    val apples = fruits.count { it == "🍏" }
+    val oranges = fruits.count { it == "🍊" }
+    val bananas = fruits.count { it == "🍌" }
+    val unmatchedBananas = max(0, bananas - apples)
+    val unmatchedApples = max(0, apples - bananas)
+    val matchedApplesAndBananas = min(bananas, apples)
     return matchedApplesAndBananas * 35 + // 🍏🍌
             (unmatchedBananas / 2 + unmatchedBananas % 2) * 35 + // 🍌
             (unmatchedApples / 2 + unmatchedApples % 2) * 25 + // 🍏
-            ((orangeCount / 3) * 2 + orangeCount % 3) * 70 // 🍊
+            ((oranges / 3) * 2 + oranges % 3) * 70 // 🍊
 }
