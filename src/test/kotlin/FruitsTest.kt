@@ -1,4 +1,6 @@
 import org.junit.jupiter.api.Test
+import kotlin.math.max
+import kotlin.math.min
 import kotlin.test.assertEquals
 
 class FruitsTest {
@@ -63,15 +65,44 @@ class FruitsTest {
     fun `2 bananas pays 1`() {
         assertEquals(35, priceOf("🍌", "🍌"))
     }
+
+    @Test
+    fun `1 banana 1 apple pays 1 banana`() {
+        assertEquals(35, priceOf("🍏", "🍌"))
+    }
+
+    @Test
+    fun `2 bananas 2 apples pays 2 bananas`() {
+        assertEquals(2 * 35, priceOf("🍌", "🍌", "🍏", "🍏"))
+    }
+
+    @Test
+    fun `6 bananas 3 apples pays 3+2 bananas`() {
+        assertEquals(5 * 35, priceOf(*Array(6) { "🍌" } + Array(3) { "🍏" }))
+    }
+
+    @Test
+    fun `3 bananas 6 apples pays 3 bananas + 2 apples`() {
+        assertEquals(3 * 35 + 2 * 25,priceOf(*Array(3) { "🍌" } + Array(6) { "🍏" }))
+    }
 }
 
 
 fun priceOf(vararg fruits: String): Int {
+    val applePrice = 25
+    val bananaPrice = 35
+    val orangePrice = 70
+
     val counts = fruits.groupBy { it }.mapValues { (_, occurrences) -> occurrences.size }
     val appleCount = counts.getOrDefault("🍏", 0)
     val orangeCount = counts.getOrDefault("🍊", 0)
     val bananaCount = counts.getOrDefault("🍌", 0)
-    return (appleCount / 2 + appleCount % 2) * 25 +
-            (bananaCount / 2 + bananaCount % 2) * 35 +
-            ((orangeCount / 3) * 2 + orangeCount % 3) * 70
+
+    val unmatchedBananas = max(0, bananaCount - appleCount)
+    val unmatchedApples = max(0, appleCount - bananaCount)
+
+    return min(bananaCount, appleCount) * bananaPrice +
+            (unmatchedBananas / 2 + unmatchedBananas % 2) * bananaPrice +
+            (unmatchedApples / 2 + unmatchedApples % 2) * applePrice +
+            ((orangeCount / 3) * 2 + orangeCount % 3) * orangePrice
 }
