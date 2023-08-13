@@ -97,8 +97,8 @@ fun priceOf(vararg fruits: String): Int {
     val unmatchedBananas = max(0, bananaCount - appleCount)
     val unmatchedApples = max(0, appleCount - bananaCount)
     val matchedApplesAndBananas = min(bananaCount, appleCount)
-    return matchedApplesAndBananas * 35 +
-            (unmatchedBananas / 2 + unmatchedBananas % 2) * 35 +
+    return matchedApplesAndBananas * 35 + // 🍏🍌
+            (unmatchedBananas / 2 + unmatchedBananas % 2) * 35 + // 🍌
             (unmatchedApples / 2 + unmatchedApples % 2) * 25 + // 🍏
-            ((orangeCount / 3) * 2 + orangeCount % 3) * 70
+            ((orangeCount / 3) * 2 + orangeCount % 3) * 70 // 🍊
 }
