@@ -96,13 +96,13 @@ class FruitsTest {
 
 fun priceOf(vararg fruits: String): Int {
     val apples = fruits.count { it == "🍏" }
-    val oranges = fruits.count { it == "🍊" }
     val bananas = fruits.count { it == "🍌" }
-    val unmatchedBananas = max(0, bananas - apples)
-    val unmatchedApples = max(0, apples - bananas)
-    val matchedApplesAndBananas = min(bananas, apples)
-    return matchedApplesAndBananas * 35 + // 🍏🍌
-            (unmatchedBananas / 2 + unmatchedBananas % 2) * 35 + // 🍌
-            (unmatchedApples / 2 + unmatchedApples % 2) * 25 + // 🍏
-            ((oranges / 3) * 2 + oranges % 3) * 70 // 🍊
+    val oranges = fruits.count { it == "🍊" }
+    return min(bananas, apples) * 35 + // 🍏🍌
+            max(0, bananas - apples).withPromo(2, 1) * 35 + // 🍌
+            max(0, apples - bananas).withPromo(2, 1) * 25 + // 🍏
+            oranges.withPromo(3, 2) * 70 // 🍊
 }
+
+private fun Int.withPromo(every: Int, pays: Int) =
+    (this / every) * pays + this % every
