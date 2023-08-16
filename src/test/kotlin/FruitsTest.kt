@@ -6,7 +6,7 @@ import kotlin.test.assertEquals
 class FruitsTest {
 
     @Test
-    fun `price of empty cart`() {
+    fun `empty cart`() {
         assertEquals(0, priceOf())
     }
 
@@ -22,33 +22,33 @@ class FruitsTest {
 
 
     @Test
-    fun `1 orange and 1 apple`() {
+    fun `1 orange, 1 apple`() {
         assertEquals(95, priceOf("🍊", "🍏"))
     }
 
     @Test
-    fun `2 apples pays 1`() {
+    fun `2 apples = 1`() {
         assertEquals(25, priceOf("🍏", "🍏"))
     }
 
     @Test
-    fun `3 apples pays 2`() {
+    fun `3 apples = 2`() {
         assertEquals(50, priceOf("🍏", "🍏", "🍏"))
     }
 
     @Test
-    fun `3 oranges pays 2`() {
+    fun `3 oranges = 2`() {
         assertEquals(70 * 2, priceOf("🍊", "🍊", "🍊"))
     }
 
     @Test
-    fun `4 oranges pays 3`() {
-        assertEquals(70 * 3, priceOf(*Array(4) { "🍊" }))
+    fun `4 oranges = 3`() {
+        assertEquals(70 * 3, priceOf("🍊", "🍊", "🍊", "🍊"))
     }
 
     @Test
-    fun `apples and oranges`() {
-        assertEquals(25 + 140, priceOf(*Array(2) { "🍏" } + Array(2) { "🍊" }))
+    fun `2 apples, 2 oranges`() {
+        assertEquals(25 + 140, priceOf("🍏", "🍏", "🍊", "🍊"))
     }
 
     @Test
@@ -57,33 +57,40 @@ class FruitsTest {
     }
 
     @Test
-    fun `10 bananas pays 5`() {
+    fun `10 bananas = 5`() {
         assertEquals(35 * 5, priceOf(*Array(10) { "🍌" }))
     }
 
     @Test
-    fun `2 bananas pays 1`() {
+    fun `2 bananas = 1`() {
         assertEquals(35, priceOf("🍌", "🍌"))
     }
 
     @Test
-    fun `1 banana 1 apple pays 1 banana`() {
+    fun `1 banana, 1 apple = 1 banana`() {
         assertEquals(35, priceOf("🍏", "🍌"))
     }
 
     @Test
-    fun `2 bananas 2 apples pays 2 bananas`() {
+    fun `2 bananas, 2 apples = 2 bananas`() {
         assertEquals(2 * 35, priceOf("🍌", "🍌", "🍏", "🍏"))
     }
 
     @Test
-    fun `6 bananas 3 apples pays 3+2 bananas`() {
+    fun `6 bananas, 3 apples = 3+2 bananas`() {
         assertEquals(5 * 35, priceOf(*Array(6) { "🍌" } + Array(3) { "🍏" }))
     }
 
     @Test
-    fun `3 bananas 6 apples pays 3 bananas + 2 apples`() {
+    fun `3 bananas, 6 apples = 3 bananas + 2 apples`() {
         assertEquals(3 * 35 + 2 * 25, priceOf(*Array(3) { "🍌" } + Array(6) { "🍏" }))
+    }
+
+    @Test
+    fun `31 bananas, 61 apples, 101 oranges = 31 bananas + 15 apples + 66+2 oranges`() {
+        assertEquals(31 * 35 + 15 * 25 + 68 * 70, priceOf(*
+        Array(31) { "🍌" } + Array(61) { "🍏" } + Array(101) { "🍊" })
+        )
     }
 }
 
