@@ -88,8 +88,10 @@ class FruitsTest {
 
     @Test
     fun `31 bananas, 61 apples, 101 oranges = 31 bananas + 15 apples + 66+2 oranges`() {
-        assertEquals(31 * 35 + 15 * 25 + 68 * 70, priceOf(*
-        Array(31) { "🍌" } + Array(61) { "🍏" } + Array(101) { "🍊" })
+        assertEquals(
+            31 * 35 + 15 * 25 + 68 * 70,
+            priceOf(*Array(31) { "🍌" } + Array(61) { "🍏" } + Array(101) { "🍊" }
+            )
         )
     }
 }
