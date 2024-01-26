@@ -1,6 +1,6 @@
-import org.junit.jupiter.api.Test
 import kotlin.math.max
 import kotlin.math.min
+import kotlin.test.Test
 import kotlin.test.assertEquals
 
 class FruitsTest {
@@ -19,7 +19,6 @@ class FruitsTest {
     fun `1 orange`() {
         assertEquals(70, priceOf("🍊"))
     }
-
 
     @Test
     fun `1 orange, 1 apple`() {
@@ -43,7 +42,7 @@ class FruitsTest {
 
     @Test
     fun `4 oranges = 3`() {
-        assertEquals(70 * 3, priceOf("🍊", "🍊", "🍊", "🍊"))
+        assertEquals(70 * 3, priceOf(*"🍊"(4)))
     }
 
     @Test
@@ -58,12 +57,12 @@ class FruitsTest {
 
     @Test
     fun `10 bananas = 5`() {
-        assertEquals(35 * 5, priceOf(*Array(10) { "🍌" }))
+        assertEquals(35 * 5, priceOf(*"🍌"(10)))
     }
 
     @Test
     fun `2 bananas = 1`() {
-        assertEquals(35, priceOf("🍌", "🍌"))
+        assertEquals(35, priceOf(*"🍌"(2)))
     }
 
     @Test
@@ -78,22 +77,26 @@ class FruitsTest {
 
     @Test
     fun `6 bananas, 3 apples = 3+2 bananas`() {
-        assertEquals(5 * 35, priceOf(*Array(6) { "🍌" } + Array(3) { "🍏" }))
+        assertEquals(5 * 35, priceOf(*"🍌"(6) + "🍏"(3)))
     }
 
     @Test
     fun `3 bananas, 6 apples = 3 bananas + 2 apples`() {
-        assertEquals(3 * 35 + 2 * 25, priceOf(*Array(3) { "🍌" } + Array(6) { "🍏" }))
+        assertEquals(
+            3 * 35 + 2 * 25,
+            priceOf(*"🍌"(3) + "🍏"(6))
+        )
     }
 
     @Test
     fun `31 bananas, 61 apples, 101 oranges = 31 bananas + 15 apples + 66+2 oranges`() {
         assertEquals(
             31 * 35 + 15 * 25 + 68 * 70,
-            priceOf(*Array(31) { "🍌" } + Array(61) { "🍏" } + Array(101) { "🍊" }
-            )
+            priceOf(*"🍌"(31) + "🍏"(61) + "🍊"(101))
         )
     }
+
+    operator fun String.invoke(value: Int) = Array(value) { this }
 }
 
 fun priceOf(vararg fruits: String): Int {
