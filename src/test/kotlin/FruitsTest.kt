@@ -42,7 +42,7 @@ class FruitsTest {
 
     @Test
     fun `4 oranges = 3`() {
-        assertEquals(70 * 3, priceOf(*"🍊" * 4))
+        assertEquals(70 * 3, priceOf("🍊" * 4))
     }
 
     @Test
@@ -57,12 +57,12 @@ class FruitsTest {
 
     @Test
     fun `10 bananas = 5`() {
-        assertEquals(35 * 5, priceOf(*"🍌" * 10))
+        assertEquals(35 * 5, priceOf("🍌" * 10))
     }
 
     @Test
     fun `2 bananas = 1`() {
-        assertEquals(35, priceOf(*"🍌" * 2))
+        assertEquals(35, priceOf("🍌" * 2))
     }
 
     @Test
@@ -77,14 +77,14 @@ class FruitsTest {
 
     @Test
     fun `6 bananas, 3 apples = 3+2 bananas`() {
-        assertEquals(5 * 35, priceOf(*"🍌" * 6 + "🍏" * 3))
+        assertEquals(5 * 35, priceOf("🍌" * 6 + "🍏" * 3))
     }
 
     @Test
     fun `3 bananas, 6 apples = 3 bananas + 2 apples`() {
         assertEquals(
             3 * 35 + 2 * 25,
-            priceOf(*"🍌" * 3 + "🍏" * 6)
+            priceOf("🍌" * 3 + "🍏" * 6)
         )
     }
 
@@ -92,12 +92,15 @@ class FruitsTest {
     fun `31 bananas, 61 apples, 101 oranges = 31 bananas + 15 apples + 66+2 oranges`() {
         assertEquals(
             31 * 35 + 15 * 25 + 68 * 70,
-            priceOf(*"🍌" * 31 + "🍏" * 61 + "🍊" * 101)
+            priceOf("🍌" * 31 + "🍏" * 61 + "🍊" * 101)
         )
     }
 
-    operator fun String.times(value: Int) = Array(value) { this }
+    private operator fun String.times(value: Int) = Array(value) { this }
+
+    private fun priceOf(arr: Array<String>) = priceOf(*arr)
 }
+
 
 fun priceOf(vararg fruits: String): Int {
     val apples = fruits.count { it == "🍏" }
