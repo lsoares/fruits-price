@@ -98,7 +98,7 @@ class FruitsTest {
 
     private operator fun String.times(value: Int) = Array(value) { this }
 
-    private fun priceOf(arr: Array<String>) = priceOf(*arr)
+    private fun priceOf(fruits: Array<String>) = priceOf(*fruits)
 }
 
 
