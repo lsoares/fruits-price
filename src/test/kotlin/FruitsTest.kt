@@ -1,4 +1,3 @@
-import kotlin.math.max
 import kotlin.math.min
 import kotlin.test.Test
 import kotlin.test.assertEquals
@@ -61,13 +60,18 @@ class FruitsTest {
     }
 
     @Test
-    fun `2 bananas = 1`() {
-        assertEquals(35, priceOf("🍌" * 2))
+    fun `1 banana, 1 apple = 1 banana`() {
+        assertEquals(35, priceOf("🍏", "🍌"))
     }
 
     @Test
-    fun `1 banana, 1 apple = 1 banana`() {
-        assertEquals(35, priceOf("🍏", "🍌"))
+    fun `2 bananas, 3 apples = 2 bananas + 1 apple`() {
+        assertEquals(2 * 35 + 25, priceOf("🍌", "🍌", "🍏", "🍏", "🍏"))
+    }
+
+    @Test
+    fun `ignores unknown`() {
+        assertEquals(35, priceOf("🍌", "🍏", "🍇", "🥑"))
     }
 
     @Test
@@ -78,6 +82,11 @@ class FruitsTest {
     @Test
     fun `6 bananas, 3 apples = 3+2 bananas`() {
         assertEquals(5 * 35, priceOf("🍌" * 6 + "🍏" * 3))
+    }
+
+    @Test
+    fun `5 apples, 7 bananas = 5+1 bananas`() {
+        assertEquals(6 * 35, priceOf("🍌" * 7 + "🍏" * 5))
     }
 
     @Test
@@ -101,16 +110,17 @@ class FruitsTest {
     private fun priceOf(fruits: Array<String>) = priceOf(*fruits)
 }
 
-
 fun priceOf(vararg fruits: String): Int {
     val apples = fruits.count { it == "🍏" }
     val bananas = fruits.count { it == "🍌" }
     val oranges = fruits.count { it == "🍊" }
-    return min(bananas, apples) * 35 + // 🍏🍌
-            max(0, bananas - apples).withPromo(2, 1) * 35 + // 🍌
-            max(0, apples - bananas).withPromo(2, 1) * 25 + // 🍏
-            oranges.withPromo(3, 2) * 70 // 🍊
-}
 
-private fun Int.withPromo(every: Int, pays: Int) =
-    (this / every) * pays + this % every
+    val freeBananasPlusApples = (bananas + apples) / 2
+    val freeApples = min(apples, freeBananasPlusApples)
+    val freeBananas = freeBananasPlusApples - freeApples
+    val freeOranges = oranges / 3
+
+    return (oranges - freeOranges) * 70 +
+            (bananas - freeBananas) * 35 +
+            (apples - freeApples) * 25
+}
